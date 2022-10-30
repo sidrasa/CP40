@@ -1,0 +1,66 @@
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+int n, m;
+int dx[4] = { -1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+bool valid(int i, int j) {
+    if (i < 0 || i >= n || j < 0 || j >= m)
+        return 0;
+    return 1;
+}
+int orangesRotting(vector<vector<int>>& a) {
+    n = a.size();
+    m = a[0].size();
+    int vis[n][m];
+    int dis[n][m];
+    memset(vis, 0, sizeof(vis));
+    queue<pair<pair<int, int>, int>>q;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            dis[i][j] = -1;
+            if (a[i][j] == 2) {
+                q.push({{i, j}, 0});
+                vis[i][j] = 1;
+            }
+
+        }
+    }
+    while (!q.empty()) {
+        pair<pair<int, int>, int> tp = q.front();
+        q.pop();
+        for (int i = 0; i < 4; i++) {
+            if (valid(tp.first.first + dx[i], tp.first.second + dy[i]) &&
+                        vis[tp.first.first + dx[i]][tp.first.second + dy[i]] == 0 &&
+                        a[tp.first.first + dx[i]][tp.first.second + dy[i]] == 1
+               ) {
+                vis[tp.first.first + dx[i]][tp.first.second + dy[i]] = 1;
+                pair<pair<int, int>, int> ng =
+                {{tp.first.first + dx[i], tp.first.second + dy[i]}, tp.second + 1};
+                dis[tp.first.first + dx[i]][tp.first.second + dy[i]] = tp.second + 1;
+                q.push(ng);
+            }
+        }
+    }
+    int ans = -1;
+    bool ok = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (a[i][j] == 1) {
+                if (dis[i][j] == -1)
+                    ok = 1;
+                ans = max(ans, dis[i][j]);
+            }
+        }
+    }
+    if (ok)
+        ans = -1;
+    return ans;
+}
+
+int main()
+{
+    
+    
+    return 0;
+}
