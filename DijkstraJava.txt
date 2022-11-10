@@ -1,0 +1,23 @@
+static int[] dijkstra(int V, ArrayList < ArrayList < ArrayList < Integer >>> adj, int S) {
+    int[] ans = new int[V];
+    PriorityQueue < int[] > pq = new PriorityQueue < > ((o1, o2)->o1[1]-o2[1]);
+    boolean[] visited = new boolean[V];
+    pq.add(new int[] {S,0});
+    while (!pq.isEmpty()) {
+      int[] curr = pq.remove();
+      int currWeight=curr[1];
+      int currEle=curr[0];
+      if (!visited[currEle]) {
+        ans[currEle] = currWeight;
+        visited[currEle] = true;
+        for (ArrayList < Integer > i: adj.get(currEle)) {
+             int nebEle=i.get(0);
+             int nebWeight=i.get(1);
+          if (!visited[nebEle]) {
+            pq.add(new int[] {nebEle, currWeight + nebWeight });
+          }
+        }
+      }
+    }
+    return ans;
+  }
