@@ -1,0 +1,46 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Reader sc = new Reader();
+        PrintWriter pw = new PrintWriter(System.out);
+        int n = sc.nextInt();
+        int[] dp = new int[n + 1], d = new int[n + 1];
+        for (int i = 1; i <= n; i++)
+            d[i] = sc.nextInt();
+        dp[1] = 0;
+        dp[2] = Math.abs(d[2] - d[1]);  
+        for (int i = 3; i <= n; i++)
+            dp[i] = Math.min(dp[i - 1] + Math.abs(d[i] - d[i - 1]), dp[i - 2] + Math.abs(d[i] - d[i - 2]));
+        pw.println(dp[n]);
+        pw.close();
+    }
+
+    private static class Reader {
+        BufferedReader br;
+        StringTokenizer st;
+
+        public Reader() {
+            br = new BufferedReader(new InputStreamReader(System.in));
+        }
+
+        public String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (Exception e) {
+                }
+            }
+            return st.nextToken();
+        }
+
+        public int nextInt() {
+            return Integer.parseInt(next());
+        }
+
+        public long nextLong() {
+            return Long.parseLong(next());
+        }
+    }
+}
